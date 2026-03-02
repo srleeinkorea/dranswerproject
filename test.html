@@ -1,665 +1,230 @@
 <!doctype html>
 <html lang="ko">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>주간 PRO 체크</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PRO App Demo</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
       :root {
         --bg: #f5f7fa;
         --card: #ffffff;
-        --ink: #0f172a;
+        --text: #0f172a;
         --muted: #64748b;
         --line: #e2e8f0;
-        --soft: #f1f5f9;
-
-        --blue: #2563eb;
         --green: #16a34a;
         --amber: #f59e0b;
-        --red: #ef4444;
-
-        --shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
-        --radius: 18px;
+        --red: #dc2626;
+        --primary: #2563eb;
       }
+
       * {
+        margin: 0;
+        padding: 0;
         box-sizing: border-box;
       }
+
       body {
-        margin: 0;
-        font-family:
-          ui-sans-serif,
-          system-ui,
-          -apple-system,
-          Segoe UI,
-          Roboto,
-          "Noto Sans KR",
-          Arial,
-          sans-serif;
-        color: var(--ink);
-        background:
-          radial-gradient(
-            1200px 600px at 15% -10%,
-            #eaf2ff 0%,
-            transparent 60%
-          ),
-          radial-gradient(1000px 600px at 100% 0%, #e9fff4 0%, transparent 55%),
-          var(--bg);
-        padding: 24px 12px 40px;
+        font-family: "Inter", sans-serif;
+        background: var(--bg);
+        display: flex;
+        justify-content: center;
+        padding: 40px 16px;
       }
 
-      /* Mobile app frame */
       .phone {
-        width: min(420px, 100%);
-        margin: 0 auto;
-        border-radius: 28px;
-        background: linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.78),
-          rgba(255, 255, 255, 0.58)
-        );
-        border: 1px solid rgba(226, 232, 240, 0.9);
-        box-shadow: var(--shadow);
+        width: 420px;
+        background: var(--card);
+        border-radius: 32px;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
         overflow: hidden;
-        backdrop-filter: blur(10px);
+        border: 1px solid var(--line);
       }
 
-      /* Top bar */
-      .topbar {
-        padding: 16px 18px 12px;
-        border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+      .header {
+        padding: 18px 20px;
+        border-bottom: 1px solid var(--line);
         display: flex;
-        align-items: flex-start;
         justify-content: space-between;
-        gap: 12px;
-        background: rgba(255, 255, 255, 0.72);
+        align-items: center;
       }
-      .title {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        min-width: 0;
-      }
-      .title h1 {
-        margin: 0;
+
+      .header h1 {
         font-size: 16px;
-        letter-spacing: -0.2px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
       }
-      .sub {
-        margin: 0;
-        font-size: 12px;
-        color: var(--muted);
-        line-height: 1.35;
-      }
+
       .badge {
-        flex: 0 0 auto;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 10px;
-        border-radius: 999px;
         font-size: 12px;
-        border: 1px solid rgba(226, 232, 240, 0.9);
-        background: #fff;
-        white-space: nowrap;
-      }
-      .dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-      }
-      .dot.green {
-        background: var(--green);
-      }
-      .dot.amber {
-        background: var(--amber);
-      }
-      .dot.red {
-        background: var(--red);
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-weight: 600;
       }
 
-      /* Content */
       .content {
-        padding: 16px 18px 18px;
-      }
-
-      .hero {
-        background: linear-gradient(
-          135deg,
-          rgba(37, 99, 235, 0.08),
-          rgba(22, 163, 74, 0.06)
-        );
-        border: 1px solid rgba(226, 232, 240, 0.9);
-        border-radius: var(--radius);
-        padding: 12px 12px;
-        margin-bottom: 12px;
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 10px;
-      }
-      .hero strong {
-        display: block;
-        font-size: 13px;
-        margin-bottom: 2px;
-      }
-      .hero small {
-        display: block;
-        color: var(--muted);
-        line-height: 1.45;
-      }
-      .timepill {
-        flex: 0 0 auto;
-        display: inline-flex;
-        align-items: center;
-        padding: 8px 10px;
-        border-radius: 999px;
-        background: #fff;
-        border: 1px solid rgba(226, 232, 240, 0.9);
-        font-size: 12px;
-        color: var(--ink);
-        white-space: nowrap;
+        padding: 20px;
+        background: linear-gradient(180deg, #f9fafb, #eef2f7);
       }
 
       .section {
-        background: rgba(255, 255, 255, 0.88);
-        border: 1px solid rgba(226, 232, 240, 0.9);
-        border-radius: var(--radius);
-        padding: 14px;
-        margin-bottom: 12px;
-      }
-      .section h2 {
-        margin: 0 0 10px;
-        font-size: 13px;
-        color: #111827;
-        letter-spacing: -0.1px;
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 16px;
+        margin-bottom: 16px;
       }
 
-      /* Chips */
-      .q {
-        padding: 12px 0;
-        border-top: 1px dashed rgba(226, 232, 240, 0.9);
-      }
-      .q:first-of-type {
-        border-top: none;
-        padding-top: 2px;
-      }
-      .qhead {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 10px;
-      }
-      .qtitle {
+      .section h2 {
         font-size: 13px;
-        font-weight: 700;
+        margin-bottom: 12px;
       }
-      .default {
-        font-size: 12px;
-        color: var(--muted);
-        background: var(--soft);
-        border: 1px solid rgba(226, 232, 240, 0.9);
-        padding: 6px 8px;
-        border-radius: 999px;
-        white-space: nowrap;
+
+      .input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        margin-bottom: 10px;
       }
 
       .chips {
         display: flex;
-        flex-wrap: wrap;
         gap: 8px;
       }
-      /* Hide radios/checkboxes but keep accessible */
-      .chips input {
-        position: absolute;
-        opacity: 0;
-        pointer-events: none;
-      }
+
       .chip {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 12px;
+        padding: 8px 12px;
         border-radius: 999px;
         border: 1px solid var(--line);
-        background: #fff;
-        font-size: 13px;
-        cursor: pointer;
-        user-select: none;
-        transition:
-          transform 0.05s ease,
-          border-color 0.15s ease,
-          box-shadow 0.15s ease;
-      }
-      .chip:active {
-        transform: scale(0.98);
-      }
-      .chip .mini {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: rgba(100, 116, 139, 0.45);
-      }
-
-      /* Selected states */
-      .chips input:checked + .chip {
-        border-color: rgba(37, 99, 235, 0.45);
-        box-shadow: 0 10px 18px rgba(37, 99, 235, 0.1);
-        background: rgba(37, 99, 235, 0.06);
-      }
-      .chips input:checked + .chip .mini {
-        background: var(--blue);
-      }
-
-      /* Severity accent (optional) */
-      .chip.up {
-        border-color: rgba(245, 158, 11, 0.35);
-      }
-      .chip.up .mini {
-        background: rgba(245, 158, 11, 0.65);
-      }
-      .chips input:checked + .chip.up {
-        background: rgba(245, 158, 11, 0.1);
-        border-color: rgba(245, 158, 11, 0.55);
-      }
-      .chips input:checked + .chip.up .mini {
-        background: var(--amber);
-      }
-
-      .chip.down {
-        border-color: rgba(22, 163, 74, 0.3);
-      }
-      .chip.down .mini {
-        background: rgba(22, 163, 74, 0.6);
-      }
-      .chips input:checked + .chip.down {
-        background: rgba(22, 163, 74, 0.1);
-        border-color: rgba(22, 163, 74, 0.55);
-      }
-      .chips input:checked + .chip.down .mini {
-        background: var(--green);
-      }
-
-      .hint {
-        margin-top: 8px;
         font-size: 12px;
-        color: var(--muted);
-        line-height: 1.5;
+        cursor: pointer;
       }
 
-      /* Conditional details */
-      .details {
-        margin-top: 10px;
-        padding: 10px;
+      .chip.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .button {
+        width: 100%;
+        padding: 12px;
         border-radius: 14px;
-        border: 1px solid rgba(226, 232, 240, 0.9);
-        background: rgba(241, 245, 249, 0.55);
-        display: none;
-      }
-      /* Show details when "있었음" selected */
-      #alarm_yes:checked ~ .details {
-        display: block;
-      }
-
-      .checks {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
+        border: none;
+        font-weight: 600;
+        background: var(--primary);
+        color: white;
+        cursor: pointer;
         margin-top: 6px;
       }
-      .check {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 9px 10px;
-        border-radius: 999px;
-        border: 1px solid var(--line);
-        background: #fff;
-        font-size: 13px;
-        color: var(--ink);
-        cursor: pointer;
-      }
-      .check input {
-        position: static;
-        opacity: 1;
-        pointer-events: auto;
-      }
 
-      /* Collapsible memo */
-      details {
-        border-radius: var(--radius);
-        border: 1px solid rgba(226, 232, 240, 0.9);
-        background: rgba(255, 255, 255, 0.88);
-        padding: 0;
-        overflow: hidden;
-      }
-      summary {
-        list-style: none;
-        cursor: pointer;
-        padding: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        font-size: 13px;
-        font-weight: 700;
-      }
-      summary::-webkit-details-marker {
-        display: none;
-      }
-      .chev {
-        width: 10px;
-        height: 10px;
-        border-right: 2px solid rgba(100, 116, 139, 0.9);
-        border-bottom: 2px solid rgba(100, 116, 139, 0.9);
-        transform: rotate(45deg);
-        transition: transform 0.15s ease;
-        margin-right: 2px;
-      }
-      details[open] .chev {
-        transform: rotate(-135deg);
-      }
-
-      .memo-body {
-        padding: 0 14px 14px;
-        border-top: 1px solid rgba(226, 232, 240, 0.9);
-      }
-      textarea {
-        width: 100%;
-        margin-top: 10px;
-        padding: 10px 11px;
-        border-radius: 12px;
-        border: 1px solid var(--line);
-        background: #fff;
-        outline: none;
-        font-size: 13px;
-        color: var(--ink);
-        min-height: 90px;
-        resize: vertical;
-      }
-      .micro {
-        margin-top: 8px;
-        font-size: 12px;
-        color: var(--muted);
-        line-height: 1.5;
-      }
-
-      /* Actions */
-      .actions {
-        display: flex;
-        gap: 10px;
+      .result {
         margin-top: 12px;
-      }
-      .btn {
-        flex: 1;
-        padding: 12px 12px;
+        padding: 12px;
         border-radius: 14px;
-        border: 1px solid rgba(226, 232, 240, 0.95);
-        background: #fff;
-        font-weight: 700;
-        cursor: pointer;
-        font-size: 13px;
-      }
-      .btn.primary {
-        border: none;
-        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-        color: #fff;
-        box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
-      }
-      .footnote {
-        margin: 10px 2px 0;
-        font-size: 11px;
-        color: var(--muted);
-        line-height: 1.5;
+        font-size: 12px;
+        display: none;
       }
     </style>
   </head>
+
   <body>
     <div class="phone">
-      <div class="topbar">
-        <div class="title">
-          <h1>주간 PRO 체크</h1>
-          <p class="sub">
-            이번 주는 <b>변화만</b> 체크하세요. 기본값은 “지난주와 비슷”으로
-            설정됩니다.
-          </p>
-        </div>
-
-        <!-- 데모용 상태 배지(정적) -->
-        <div class="badge" aria-label="상태">
-          <span class="dot green"></span>
-          GREEN · 안정
+      <div class="header">
+        <h1>주간 PRO 체크</h1>
+        <div
+          id="statusBadge"
+          class="badge"
+          style="background: #dcfce7; color: #166534"
+        >
+          GREEN
         </div>
       </div>
 
       <div class="content">
-        <div class="hero">
-          <div>
-            <strong>30초 체크</strong>
-            <small
-              >지난주와 달라진 항목만 선택하면 됩니다. (미완료 시 자동 저장
-              가정)</small
-            >
-          </div>
-          <div class="timepill">주 1회</div>
+        <div class="section">
+          <h2>기초 수치</h2>
+          <input
+            id="temp"
+            class="input"
+            type="number"
+            step="0.1"
+            placeholder="체온 (℃)"
+          />
+          <input id="spo2" class="input" type="number" placeholder="SpO₂ (%)" />
         </div>
 
         <div class="section">
-          <h2>핵심 변화 체크 (기본값: 지난주와 비슷)</h2>
-
-          <!-- Q1: Breathing change -->
-          <div class="q">
-            <div class="qhead">
-              <div class="qtitle">1) 호흡 상태</div>
-              <div class="default">기본: 비슷</div>
-            </div>
-
-            <div class="chips" role="radiogroup" aria-label="호흡 상태 변화">
-              <label>
-                <input type="radio" name="breath" checked />
-                <span class="chip"
-                  ><span class="mini"></span>지난주와 비슷</span
-                >
-              </label>
-              <label>
-                <input type="radio" name="breath" />
-                <span class="chip down"><span class="mini"></span>좋아짐</span>
-              </label>
-              <label>
-                <input type="radio" name="breath" />
-                <span class="chip up"><span class="mini"></span>나빠짐</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Q2: Suction change -->
-          <div class="q">
-            <div class="qhead">
-              <div class="qtitle">2) 석션 빈도</div>
-              <div class="default">기본: 비슷</div>
-            </div>
-
-            <div class="chips" role="radiogroup" aria-label="석션 변화">
-              <label>
-                <input type="radio" name="suction" checked />
-                <span class="chip"
-                  ><span class="mini"></span>지난주와 비슷</span
-                >
-              </label>
-              <label>
-                <input type="radio" name="suction" />
-                <span class="chip down"><span class="mini"></span>감소</span>
-              </label>
-              <label>
-                <input type="radio" name="suction" />
-                <span class="chip up"><span class="mini"></span>증가</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Q3: Secretion change -->
-          <div class="q">
-            <div class="qhead">
-              <div class="qtitle">3) 분비물</div>
-              <div class="default">기본: 비슷</div>
-            </div>
-
-            <div class="chips" role="radiogroup" aria-label="분비물 변화">
-              <label>
-                <input type="radio" name="secretion" checked />
-                <span class="chip"
-                  ><span class="mini"></span>지난주와 비슷</span
-                >
-              </label>
-              <label>
-                <input type="radio" name="secretion" />
-                <span class="chip up"><span class="mini"></span>양이 증가</span>
-              </label>
-              <label>
-                <input type="radio" name="secretion" />
-                <span class="chip up"
-                  ><span class="mini"></span>색/점도 변화</span
-                >
-              </label>
-            </div>
-          </div>
-
-          <!-- Q4: Sleep/activity -->
-          <div class="q">
-            <div class="qhead">
-              <div class="qtitle">4) 수면/활동성</div>
-              <div class="default">기본: 비슷</div>
-            </div>
-
-            <div class="chips" role="radiogroup" aria-label="수면/활동 변화">
-              <label>
-                <input type="radio" name="activity" checked />
-                <span class="chip"
-                  ><span class="mini"></span>지난주와 비슷</span
-                >
-              </label>
-              <label>
-                <input type="radio" name="activity" />
-                <span class="chip up"><span class="mini"></span>조금 감소</span>
-              </label>
-              <label>
-                <input type="radio" name="activity" />
-                <span class="chip up"><span class="mini"></span>많이 감소</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Q5: Intake -->
-          <div class="q">
-            <div class="qhead">
-              <div class="qtitle">5) 섭취/수유</div>
-              <div class="default">기본: 비슷</div>
-            </div>
-
-            <div class="chips" role="radiogroup" aria-label="섭취 변화">
-              <label>
-                <input type="radio" name="intake" checked />
-                <span class="chip"
-                  ><span class="mini"></span>지난주와 비슷</span
-                >
-              </label>
-              <label>
-                <input type="radio" name="intake" />
-                <span class="chip up"><span class="mini"></span>감소</span>
-              </label>
-              <label>
-                <input type="radio" name="intake" />
-                <span class="chip up"><span class="mini"></span>거의 못함</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Q6: Alarm event (conditional) -->
-          <div class="q">
-            <div class="qhead">
-              <div class="qtitle">6) 알람/이벤트</div>
-              <div class="default">기본: 없음</div>
-            </div>
-
-            <!-- We place inputs then use sibling selector to show details -->
-            <div class="chips" role="radiogroup" aria-label="알람 여부">
-              <label>
-                <input type="radio" id="alarm_no" name="alarm" checked />
-                <span class="chip"><span class="mini"></span>없었음</span>
-              </label>
-              <label>
-                <input type="radio" id="alarm_yes" name="alarm" />
-                <span class="chip up"><span class="mini"></span>있었음</span>
-              </label>
-
-              <div class="details" aria-label="알람 상세(선택)">
-                <div
-                  style="font-size: 12px; color: var(--muted); font-weight: 700"
-                >
-                  있었다면 유형만 체크(선택)
-                </div>
-                <div class="checks">
-                  <label class="check"
-                    ><input type="checkbox" /> 산소포화도 알람</label
-                  >
-                  <label class="check"
-                    ><input type="checkbox" /> 압력/누출 알람</label
-                  >
-                  <label class="check"
-                    ><input type="checkbox" /> 기침/가래 증가</label
-                  >
-                  <label class="check"
-                    ><input type="checkbox" /> 청색증 의심</label
-                  >
-                </div>
-                <div class="hint">
-                  필요 시 의료진 안내/연락 절차를 앱 내 정책에 맞게
-                  연결하십시오.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="hint">
-            입력은 주간 변화 기록 목적입니다. 보호자가 위급하다고 판단되면 앱
-            안내 여부와 무관하게 의료진 또는 응급체계 지시에 따르십시오.
+          <h2>호흡 상태</h2>
+          <div class="chips">
+            <div class="chip active" data-value="same">비슷</div>
+            <div class="chip" data-value="worse">나빠짐</div>
           </div>
         </div>
 
-        <!-- Collapsible memo: optional -->
-        <details>
-          <summary>
-            <span>추가 메모 (선택)</span>
-            <span class="chev" aria-hidden="true"></span>
-          </summary>
-          <div class="memo-body">
-            <div class="micro">
-              특이사항이 있으면 간단히 적어주세요. 없으면 생략해도 됩니다.
-            </div>
-            <textarea
-              placeholder="예: 야간 기침이 늘었고 석션이 평소보다 증가했습니다."
-            ></textarea>
-            <div class="micro">
-              메모는 선택 항목이며, 주간 체크의 완주율을 위해 기본은
-              ‘접힘’입니다.
-            </div>
-          </div>
-        </details>
+        <button class="button" onclick="analyze()">기록 완료</button>
 
-        <div class="actions">
-          <button class="btn" type="button">이번 주 생략</button>
-          <button class="btn primary" type="button">기록 완료</button>
-        </div>
-
-        <div class="footnote">
-          설계 포인트: 기본값 “비슷”, 변화형(증가/감소) 칩, 조건부(알람 상세)
-          노출, 메모 접기(선택), 원스크린 완료.
-        </div>
+        <div id="resultBox" class="result"></div>
       </div>
     </div>
+
+    <script>
+      let breathState = "same";
+
+      document.querySelectorAll(".chip").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          document
+            .querySelectorAll(".chip")
+            .forEach((c) => c.classList.remove("active"));
+          chip.classList.add("active");
+          breathState = chip.dataset.value;
+        });
+      });
+
+      function analyze() {
+        const temp = parseFloat(document.getElementById("temp").value);
+        const spo2 = parseFloat(document.getElementById("spo2").value);
+
+        const badge = document.getElementById("statusBadge");
+        const result = document.getElementById("resultBox");
+
+        let status = "GREEN";
+        let message = "안정 상태입니다.";
+
+        if (spo2 < 94 || breathState === "worse") {
+          status = "AMBER";
+          message =
+            "안정성 저하 경향이 감지되었습니다. 의료진 검토가 필요합니다.";
+        }
+
+        if (spo2 < 90) {
+          status = "RED";
+          message = "저산소 위험 가능성. 즉시 의료진 연락이 필요합니다.";
+        }
+
+        badge.textContent = status;
+        badge.style.background =
+          status === "GREEN"
+            ? "#dcfce7"
+            : status === "AMBER"
+              ? "#fef3c7"
+              : "#fee2e2";
+        badge.style.color =
+          status === "GREEN"
+            ? "#166534"
+            : status === "AMBER"
+              ? "#92400e"
+              : "#991b1b";
+
+        result.style.display = "block";
+        result.style.background = badge.style.background;
+        result.style.color = badge.style.color;
+        result.innerHTML = "<strong>LLM 요약:</strong><br/>" + message;
+      }
+    </script>
   </body>
 </html>
