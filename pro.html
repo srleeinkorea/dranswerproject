@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PRO Data Collection Strategy</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap");
+
+      body {
+        font-family:
+          "DM Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        background: #fafbfc;
+        color: #1f2937;
+        line-height: 1.75;
+        padding: 60px 20px;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .header h1 {
+        font-size: 2.5rem;
+        color: #0a0e27;
+        margin-bottom: 12px;
+        font-weight: 700;
+      }
+
+      .header p {
+        font-size: 1.05rem;
+        color: #6b7280;
+      }
+
+      .section {
+        background: white;
+        border-radius: 16px;
+        padding: 50px;
+        margin-bottom: 40px;
+        border-top: 4px solid #0891b2;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      }
+
+      .section h2 {
+        font-size: 1.8rem;
+        color: #0a0e27;
+        margin-bottom: 32px;
+        font-weight: 700;
+      }
+
+      .section h3 {
+        font-size: 1.1rem;
+        color: #1f2937;
+        margin-bottom: 18px;
+        margin-top: 28px;
+        font-weight: 600;
+      }
+
+      .section p {
+        color: #4b5563;
+        margin-bottom: 18px;
+        line-height: 1.75;
+      }
+
+      /* COMPARISON TABLE */
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 28px 0;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #e5e7eb;
+      }
+
+      .comparison-table thead {
+        background: linear-gradient(90deg, #0a0e27, #1f2937);
+        color: white;
+      }
+
+      .comparison-table th {
+        padding: 16px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 0.85rem;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+      }
+
+      .comparison-table td {
+        padding: 14px 16px;
+        border-bottom: 1px solid #f0f0f0;
+        color: #4b5563;
+      }
+
+      .comparison-table tbody tr:hover {
+        background: #f9fafb;
+      }
+
+      .comparison-table tbody tr:last-child td {
+        border-bottom: none;
+      }
+
+      .highlight-good {
+        background: #dcfce7;
+        color: #15803d;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+
+      .highlight-bad {
+        background: #fee2e2;
+        color: #b91c1c;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+
+      /* REASON CARDS */
+      .reason-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 18px;
+        margin: 28px 0;
+      }
+
+      .reason-card {
+        background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+        border: 1.5px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 24px;
+        transition: all 0.3s ease;
+      }
+
+      .reason-card:hover {
+        border-color: #0891b2;
+        box-shadow: 0 8px 20px rgba(8, 145, 178, 0.12);
+        transform: translateY(-4px);
+      }
+
+      .reason-card h4 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #0a0e27;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .reason-card p {
+        font-size: 0.9rem;
+        color: #4b5563;
+        line-height: 1.6;
+      }
+
+      /* RISK COMPARISON */
+      .risk-comparison {
+        background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
+        border-left: 4px solid #f59e0b;
+        padding: 24px;
+        border-radius: 10px;
+        margin: 28px 0;
+      }
+
+      .risk-comparison h4 {
+        color: #92400e;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+
+      .risk-comparison p {
+        color: #78350f;
+        margin-bottom: 10px;
+      }
+
+      /* SOLUTION BOXES */
+      .solution-box {
+        background: linear-gradient(135deg, #ecf0ff 0%, #e0e7ff 100%);
+        border-left: 4px solid #0891b2;
+        padding: 24px;
+        border-radius: 10px;
+        margin: 28px 0;
+      }
+
+      .solution-box h4 {
+        color: #003b66;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+
+      .solution-box p {
+        color: #0c4a6e;
+        margin-bottom: 10px;
+      }
+
+      .solution-box ul {
+        list-style: none;
+        padding: 0;
+        margin: 10px 0;
+      }
+
+      .solution-box li {
+        padding-left: 24px;
+        position: relative;
+        color: #0c4a6e;
+        margin-bottom: 8px;
+      }
+
+      .solution-box li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #0891b2;
+        font-weight: 700;
+      }
+
+      /* WORKFLOW DIAGRAM */
+      .workflow {
+        background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 28px;
+        margin: 28px 0;
+      }
+
+      .workflow-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 16px;
+        position: relative;
+      }
+
+      .workflow-item:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        left: 20px;
+        top: 50px;
+        width: 2px;
+        height: 16px;
+        background: linear-gradient(180deg, #0891b2, transparent);
+      }
+
+      .workflow-number {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #0891b2, #06b6d4);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+
+      .workflow-content h5 {
+        font-weight: 600;
+        color: #0a0e27;
+        margin-bottom: 4px;
+      }
+
+      .workflow-content p {
+        font-size: 0.85rem;
+        color: #4b5563;
+        margin: 0;
+      }
+
+      /* LISTS */
+      .text-list {
+        list-style: none;
+        padding: 0;
+        margin: 16px 0;
+      }
+
+      .text-list li {
+        padding-left: 24px;
+        position: relative;
+        color: #4b5563;
+        margin-bottom: 10px;
+      }
+
+      .text-list li:before {
+        content: "▪";
+        position: absolute;
+        left: 0;
+        color: #0891b2;
+        font-weight: 700;
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 768px) {
+        .section {
+          padding: 32px;
+        }
+
+        .header h1 {
+          font-size: 1.8rem;
+        }
+
+        .reason-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      body {
+        padding-top: 80px; /* 네비 높이 확보 */
+        font-family:
+          "Noto Sans KR",
+          "DM Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        background: linear-gradient(180deg, #fafbfc 0%, #f5f6f8 100%);
+        color: #2d3748;
+        line-height: 1.75;
+        letter-spacing: -0.3px;
+      }
+
+      .global-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid #e8ecf1;
+        display: flex;
+        align-items: center;
+        z-index: 999;
+      }
+
+      .nav-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 40px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .nav-logo {
+        font-weight: 800;
+        font-size: 16px;
+        color: #0a0e27;
+      }
+
+      .nav-menu {
+        display: flex;
+        gap: 32px;
+      }
+
+      .nav-menu a {
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        color: #6b7280;
+        position: relative;
+        transition: 0.2s;
+      }
+
+      .nav-menu a:hover,
+      .nav-menu a.active {
+        color: #0891b2;
+      }
+
+      .nav-menu a.active::after {
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: #0891b2;
+        border-radius: 2px;
+      }
+
+      @media (max-width: 768px) {
+        .section {
+          padding: 40px;
+          margin: 30px 0;
+        }
+        .nav-inner {
+          padding: 0 20px;
+        }
+        .nav-menu {
+          gap: 18px;
+        }
+        .header h1 {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="global-nav">
+      <div class="nav-inner">
+        <div class="nav-logo">Healthcare AI Platform</div>
+        <div class="nav-menu">
+          <a href="index.html">Overview</a>
+          <a href="pro.html" class="active">PRO Strategy</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <!-- HEADER -->
+      <div class="header">
+        <h1>PRO Data Collection Strategy</h1>
+        <p>보호자 입력 데이터를 주간 단위로 수집하는 설계 근거</p>
+      </div>
+
+      <!-- WHY WEEKLY -->
+      <div class="section">
+        <h2>왜 일일이 아닌 주간인가?</h2>
+
+        <p>
+          PRO(Patient/Guardian-Reported Outcomes) 데이터를 주 1회로 설정한 것은
+          단순한 편의성 선택이 아닙니다. 이는 의료 모니터링 시스템의 실질적
+          효율성, 데이터 품질, 그리고 임상 효과성을 종합적으로 고려한
+          결과입니다.
+        </p>
+
+        <h3>핵심 설계 원칙: 이중 모니터링 체계</h3>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>데이터 소스</th>
+              <th>수집 주기</th>
+              <th>특성</th>
+              <th>역할</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Ventilation Signal</strong></td>
+              <td>1시간</td>
+              <td>
+                <span class="highlight-good">객관적, 자동화, 실시간</span>
+              </td>
+              <td>급성 변화 감지</td>
+            </tr>
+            <tr>
+              <td><strong>PRO Data</strong></td>
+              <td>1주일</td>
+              <td><span class="highlight-good">주관적, 수동, 정기적</span></td>
+              <td>만성 추세 파악</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          이 두 가지는 서로 다른 임상 정보를 담당합니다. 벤틸레이션 신호는
+          <strong>즉각적인 생리적 변화</strong>를 포착하고, PRO 데이터는
+          <strong>환자의 종합적 건강 상태</strong>를 반영합니다.
+        </p>
+      </div>
+
+      <!-- KEY REASONS -->
+      <div class="section">
+        <h2>주간 설정의 5가지 핵심 이유</h2>
+
+        <div class="reason-grid">
+          <div class="reason-card">
+            <h4>📋 보호자 부담 최소화</h4>
+            <p>
+              장기 기계호흡 환자의 보호자는 일일 케어로 이미 피로감이 있습니다.
+              매일의 입력은 순응도 저하와 데이터 품질 악화를 초래합니다. 주간
+              1회는 현실적이고 지속 가능합니다.
+            </p>
+          </div>
+
+          <div class="reason-card">
+            <h4>🎯 데이터 품질 향상</h4>
+            <p>
+              정기적인 주간 평가는 의도적인 관찰과 기록을 의미합니다. 매일
+              입력된 산발적 정보보다 주 1회의 체계적 평가가 더 신뢰성 있는 임상
+              정보를 제공합니다.
+            </p>
+          </div>
+
+          <div class="reason-card">
+            <h4>⚡ 벤틸 신호의 보완</h4>
+            <p>
+              1시간 주기의 호흡 신호로 이미 고주파 모니터링이 가능합니다. PRO는
+              벤틸이 놓치는 <strong>주관적 증상</strong>(발작, 불편감)과
+              <strong>생활 품질</strong> 정보를 보완합니다.
+            </p>
+          </div>
+
+          <div class="reason-card">
+            <h4>📊 임상 의미의 일치</h4>
+            <p>
+              장기 환자의 점진적 변화는 일일 단위로 감지하기 어렵습니다.
+              호흡곤란, 감염 징후 같은 임상적 의미 있는 변화는 주간 단위로
+              충분히 추적 가능합니다.
+            </p>
+          </div>
+
+          <div class="reason-card">
+            <h4>🚨 응급 상황 별도 대응</h4>
+            <p>
+              발작, 급성 감염 등 긴급 상황은 주간 입력을 기다리지 않습니다. 즉시
+              보고 채널이 분리되어 있어 주간 일정에 영향을 주지 않습니다.
+            </p>
+          </div>
+
+          <div class="reason-card">
+            <h4>💾 시스템 효율성</h4>
+            <p>
+              매일 입력되는 중복 정보는 저장 공간 낭비와 데이터 분석 복잡도를
+              증가시킵니다. 주간 집약된 데이터가 머신러닝 모델 학습과 추론
+              속도를 향상시킵니다.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPARISON ANALYSIS -->
+      <div class="section">
+        <h2>일일 vs 주간 수집의 비교 분석</h2>
+
+        <h3>일일 PRO 입력의 문제점</h3>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>측면</th>
+              <th>일일 입력</th>
+              <th>예상되는 결과</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>보호자 순응도</strong></td>
+              <td><span class="highlight-bad">매우 낮음</span></td>
+              <td>데이터 누락 증가, 부정확한 입력</td>
+            </tr>
+            <tr>
+              <td><strong>정보 품질</strong></td>
+              <td><span class="highlight-bad">산발적 & 피상적</span></td>
+              <td>임상 의의 낮은 데이터만 축적</td>
+            </tr>
+            <tr>
+              <td><strong>시스템 부하</strong></td>
+              <td><span class="highlight-bad">365배 증가</span></td>
+              <td>스토리지, 처리 비용 급증</td>
+            </tr>
+            <tr>
+              <td><strong>신호 특이성</strong></td>
+              <td><span class="highlight-bad">노이즈 증가</span></td>
+              <td>거짓 알림 빈도 상승</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>주간 PRO 입력의 장점</h3>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>측면</th>
+              <th>주간 입력</th>
+              <th>달성되는 결과</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>보호자 순응도</strong></td>
+              <td><span class="highlight-good">높음</span></td>
+              <td>일관되고 신뢰성 있는 데이터</td>
+            </tr>
+            <tr>
+              <td><strong>정보 품질</strong></td>
+              <td><span class="highlight-good">의도적 & 체계적</span></td>
+              <td>임상적 의의 높은 정보 수집</td>
+            </tr>
+            <tr>
+              <td><strong>시스템 효율</strong></td>
+              <td><span class="highlight-good">최적화됨</span></td>
+              <td>스토리지 및 처리 비용 절감</td>
+            </tr>
+            <tr>
+              <td><strong>신호 명확성</strong></td>
+              <td><span class="highlight-good">높음</span></td>
+              <td>거짓 긍정(false positive) 감소</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- COMPLEMENTARY ROLES -->
+      <div class="section">
+        <h2>Ventilation & PRO의 보완 역할</h2>
+
+        <h3>실시간 호흡 신호 (1시간 주기)</h3>
+        <ul class="text-list">
+          <li>
+            <strong>감지 대상:</strong> PIP 상승, RR 급증, MinVent 저하 같은
+            급성 변화
+          </li>
+          <li>
+            <strong>임상 의미:</strong> 회로 폐쇄, 기도 분비물, 기계적 이상
+          </li>
+          <li><strong>반응 속도:</strong> 변화 발생 후 1~2시간 내 감지</li>
+        </ul>
+
+        <h3>주간 PRO 평가</h3>
+        <ul class="text-list">
+          <li>
+            <strong>감지 대상:</strong> 호흡곤란 증상, 발작 빈도, 감염 징후,
+            의식 변화
+          </li>
+          <li>
+            <strong>임상 의미:</strong> 기저 질환 악화, 신경학적 변화, 전신 상태
+          </li>
+          <li><strong>관찰 기간:</strong> 지난 7일간의 누적 변화 양상</li>
+        </ul>
+
+        <div class="solution-box">
+          <h4>🔄 통합 분석의 장점</h4>
+          <p>두 데이터 소스를 함께 분석할 때:</p>
+          <ul>
+            <li>급성 신호(Ventilation)로 위험 감지 → 즉시 대응</li>
+            <li>주관적 증상(PRO)으로 임상 맥락 파악 → 의료진 판단 지원</li>
+            <li>기계적 이상 vs 기저 질환 악화 구분 가능</li>
+            <li>거짓 경보(false alarm) 감소</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CLINICAL WORKFLOW -->
+      <div class="section">
+        <h2>실제 임상 워크플로우</h2>
+
+        <div class="workflow">
+          <div class="workflow-item">
+            <div class="workflow-number">1</div>
+            <div class="workflow-content">
+              <h5>매시간 자동 모니터링</h5>
+              <p>벤틸레이터 신호 수집 → Yellow/Red 신호 시 보호자 알림</p>
+            </div>
+          </div>
+
+          <div class="workflow-item">
+            <div class="workflow-number">2</div>
+            <div class="workflow-content">
+              <h5>일일 임상가 검토</h5>
+              <p>의료진이 일일 신호 트렌드 확인 → 필요시 전화 상담</p>
+            </div>
+          </div>
+
+          <div class="workflow-item">
+            <div class="workflow-number">3</div>
+            <div class="workflow-content">
+              <h5>주간 포괄적 평가</h5>
+              <p>보호자 PRO 입력 + 7일 누적 벤틸 데이터 → 종합 분석</p>
+            </div>
+          </div>
+
+          <div class="workflow-item">
+            <div class="workflow-number">4</div>
+            <div class="workflow-content">
+              <h5>긴급 이벤트 즉시 처리</h5>
+              <p>발작/감염 신고 → 실시간 위험도 재평가 → 응급 호출</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="margin-top: 28px; font-style: italic; color: #6b7280">
+          이 체계는 기계적 자동화(호흡 신호)와 임상적 판단(PRO 평가)의 균형을
+          이룹니다.
+        </p>
+      </div>
+
+      <!-- EVIDENCE -->
+      <div class="section">
+        <h2>의료 모니터링 문헌의 지지</h2>
+
+        <h3>왜 이 설계가 임상적으로 타당한가?</h3>
+        <ul class="text-list">
+          <li>
+            <strong>만성 환자 모니터링:</strong> 점진적 악화는 주간 단위로도
+            충분히 감지 가능합니다. 급성 변화는 벤틸 신호로 실시간 포착됩니다.
+          </li>
+          <li>
+            <strong>보호자 부담 vs 임상 효과:</strong> 일일 입력의 증가된 부담이
+            임상 효과를 상회하는 경우는 드뭅니다. 주간 입력은 순응도와 임상
+            가치의 최적점입니다.
+          </li>
+          <li>
+            <strong>데이터 신뢰성:</strong> 의도적인 주간 평가(intentional
+            weekly assessment)가 산발적 일일 입력보다 의료진의 신뢰를 받습니다.
+          </li>
+          <li>
+            <strong>시스템 특이성:</strong> 주간 집약 데이터는 머신러닝 모델의
+            과적합을 방지하고 일반화 능력을 향상시킵니다.
+          </li>
+        </ul>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="section">
+        <h2>결론</h2>
+
+        <div class="solution-box">
+          <h4>PRO를 주간으로 설정한 이유</h4>
+          <p>이는 다음의 균형점입니다:</p>
+          <ul>
+            <li>
+              <strong>기술 + 인간:</strong> 자동화된 실시간 신호(Ventilation) +
+              의도적인 인간 평가(PRO)
+            </li>
+            <li>
+              <strong>빈도 + 품질:</strong> 고빈도 객관 데이터 + 저빈도 고품질
+              주관 데이터
+            </li>
+            <li><strong>효율 + 효과:</strong> 시스템 효율성 + 임상 효과성</li>
+            <li>
+              <strong>자동화 + 신뢰:</strong> 기계 기반 감지 + 임상가의 판단적
+              입력
+            </li>
+          </ul>
+        </div>
+
+        <p style="margin-top: 28px">
+          결과적으로 이 설계는
+          <strong
+            >장기 기계호흡 환자 모니터링의 현실적 제약과 임상적 필요성</strong
+          >을 동시에 만족하는 최적의 구성입니다.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
