@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PRO App Demo</title>
+    <title>Ventilator Case Interpretation Example</title>
 
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
@@ -12,15 +12,13 @@
 
     <style>
       :root {
-        --bg: #f5f7fa;
+        --bg: #f8fafc;
         --card: #ffffff;
         --text: #0f172a;
         --muted: #64748b;
         --line: #e2e8f0;
         --green: #16a34a;
         --amber: #f59e0b;
-        --red: #dc2626;
-        --primary: #2563eb;
       }
 
       * {
@@ -32,199 +30,191 @@
       body {
         font-family: "Inter", sans-serif;
         background: var(--bg);
-        display: flex;
-        justify-content: center;
-        padding: 40px 16px;
+        padding: 60px 24px;
+        color: var(--text);
       }
 
-      .phone {
-        width: 420px;
-        background: var(--card);
-        border-radius: 32px;
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
-        overflow: hidden;
-        border: 1px solid var(--line);
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
       }
 
-      .header {
-        padding: 18px 20px;
-        border-bottom: 1px solid var(--line);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .header h1 {
-        font-size: 16px;
-      }
-
-      .badge {
-        font-size: 12px;
-        padding: 6px 10px;
-        border-radius: 999px;
-        font-weight: 600;
-      }
-
-      .content {
-        padding: 20px;
-        background: linear-gradient(180deg, #f9fafb, #eef2f7);
-      }
-
-      .section {
-        background: white;
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        padding: 16px;
-        margin-bottom: 16px;
-      }
-
-      .section h2 {
-        font-size: 13px;
-        margin-bottom: 12px;
-      }
-
-      .input {
-        width: 100%;
-        padding: 10px;
-        border-radius: 12px;
-        border: 1px solid var(--line);
+      h1 {
+        font-size: 28px;
         margin-bottom: 10px;
       }
 
-      .chips {
-        display: flex;
-        gap: 8px;
+      .sub {
+        color: var(--muted);
+        margin-bottom: 40px;
       }
 
-      .chip {
-        padding: 8px 12px;
-        border-radius: 999px;
+      .section {
+        margin-bottom: 50px;
+      }
+
+      .card {
+        background: var(--card);
         border: 1px solid var(--line);
-        font-size: 12px;
-        cursor: pointer;
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
       }
 
-      .chip.active {
-        background: var(--primary);
-        color: white;
-        border-color: var(--primary);
+      .card h2 {
+        font-size: 16px;
+        margin-bottom: 10px;
       }
 
-      .button {
-        width: 100%;
-        padding: 12px;
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+      }
+
+      .metric {
+        border: 1px solid var(--line);
         border-radius: 14px;
-        border: none;
+        padding: 14px;
+        background: #ffffff;
+      }
+
+      .metric strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      .flow {
+        display: grid;
+        gap: 14px;
+      }
+
+      .flow-step {
+        padding: 16px;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: #ffffff;
+      }
+
+      .highlight {
+        background: #fef3c7;
+        border: 1px solid #fde68a;
+        border-radius: 14px;
+        padding: 16px;
+        font-size: 14px;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
         font-weight: 600;
-        background: var(--primary);
-        color: white;
-        cursor: pointer;
-        margin-top: 6px;
-      }
-
-      .result {
-        margin-top: 12px;
-        padding: 12px;
-        border-radius: 14px;
-        font-size: 12px;
-        display: none;
       }
     </style>
   </head>
 
   <body>
-    <div class="phone">
-      <div class="header">
-        <h1>주간 PRO 체크</h1>
-        <div
-          id="statusBadge"
-          class="badge"
-          style="background: #dcfce7; color: #166534"
-        >
-          GREEN
-        </div>
-      </div>
+    <div class="container">
+      <h1>실제 환아 케이스 연결 예시</h1>
+      <p class="sub">
+        벤틸레이터 5개 핵심 지표가 실제 환아 상태 해석에 어떻게 연결되는지
+        단계별로 설명한 예시입니다. 본 사례는 “예측”이 아닌 “현재 상태 분석”
+        중심입니다.
+      </p>
 
-      <div class="content">
-        <div class="section">
-          <h2>기초 수치</h2>
-          <input
-            id="temp"
-            class="input"
-            type="number"
-            step="0.1"
-            placeholder="체온 (℃)"
-          />
-          <input id="spo2" class="input" type="number" placeholder="SpO₂ (%)" />
-        </div>
-
-        <div class="section">
-          <h2>호흡 상태</h2>
-          <div class="chips">
-            <div class="chip active" data-value="same">비슷</div>
-            <div class="chip" data-value="worse">나빠짐</div>
+      <!-- CASE INPUT -->
+      <div class="section">
+        <div class="card">
+          <h2>📌 Case 입력값 (최근 24시간)</h2>
+          <div class="grid">
+            <div class="metric">
+              <strong>PIP</strong>
+              28 cmH₂O (평균 대비 상승)
+            </div>
+            <div class="metric">
+              <strong>VTe</strong>
+              140 mL (소폭 감소)
+            </div>
+            <div class="metric">
+              <strong>RR</strong>
+              32회/분 (상승)
+            </div>
+            <div class="metric">
+              <strong>MinVent</strong>
+              4.5 L/min (유지)
+            </div>
+            <div class="metric">
+              <strong>Leak</strong>
+              8% (정상 범위)
+            </div>
           </div>
         </div>
+      </div>
 
-        <button class="button" onclick="analyze()">기록 완료</button>
+      <!-- INTERPRETATION FLOW -->
+      <div class="section">
+        <div class="card">
+          <h2>🧠 지표 간 해석 흐름</h2>
 
-        <div id="resultBox" class="result"></div>
+          <div class="flow">
+            <div class="flow-step">
+              <strong>1️⃣ PIP 상승</strong><br />
+              기도 저항 증가 가능성 → 분비물 증가 또는 기도 협착 의심
+            </div>
+
+            <div class="flow-step">
+              <strong>2️⃣ VTe 감소</strong><br />
+              동일 압력 대비 실제 환기량 감소 → 폐 순응도 저하 가능성
+            </div>
+
+            <div class="flow-step">
+              <strong>3️⃣ RR 상승</strong><br />
+              자발 호흡 증가 → 환아의 보상 반응 가능성
+            </div>
+
+            <div class="flow-step">
+              <strong>4️⃣ Leak 정상</strong><br />
+              회로 문제 가능성 낮음 → 생리적 변화 가능성 우선 고려
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SYSTEM OUTPUT -->
+      <div class="section">
+        <div class="card">
+          <h2>⚙ 시스템 종합 해석</h2>
+
+          <p>
+            PIP 상승 + VTe 감소 + RR 상승 패턴이 동반됨. 회로 누수는 정상 범위로
+            확인됨.
+          </p>
+
+          <div class="highlight">
+            <strong>상태 분류:</strong>
+            <span class="badge" style="background: #fef3c7; color: #92400e">
+              AMBER
+            </span>
+            <br /><br />
+            급성 응급 징후는 아니나 안정성 저하 경향 존재. 추가 관찰 및 의료진
+            검토 권고.
+          </div>
+        </div>
+      </div>
+
+      <!-- LLM EXPLANATION -->
+      <div class="section">
+        <div class="card">
+          <h2>🤖 LLM 설명 예시</h2>
+          <p style="font-size: 14px; color: #374151">
+            최근 24시간 동안 흡기압 상승과 일회 환기량 감소가 동반되었습니다.
+            회로 누수는 정상 범위로 확인되어 기계적 문제 가능성은 낮습니다.
+            분비물 증가 또는 기도 저항 변화 가능성이 있으며, 추가 관찰이
+            필요합니다.
+          </p>
+        </div>
       </div>
     </div>
-
-    <script>
-      let breathState = "same";
-
-      document.querySelectorAll(".chip").forEach((chip) => {
-        chip.addEventListener("click", () => {
-          document
-            .querySelectorAll(".chip")
-            .forEach((c) => c.classList.remove("active"));
-          chip.classList.add("active");
-          breathState = chip.dataset.value;
-        });
-      });
-
-      function analyze() {
-        const temp = parseFloat(document.getElementById("temp").value);
-        const spo2 = parseFloat(document.getElementById("spo2").value);
-
-        const badge = document.getElementById("statusBadge");
-        const result = document.getElementById("resultBox");
-
-        let status = "GREEN";
-        let message = "안정 상태입니다.";
-
-        if (spo2 < 94 || breathState === "worse") {
-          status = "AMBER";
-          message =
-            "안정성 저하 경향이 감지되었습니다. 의료진 검토가 필요합니다.";
-        }
-
-        if (spo2 < 90) {
-          status = "RED";
-          message = "저산소 위험 가능성. 즉시 의료진 연락이 필요합니다.";
-        }
-
-        badge.textContent = status;
-        badge.style.background =
-          status === "GREEN"
-            ? "#dcfce7"
-            : status === "AMBER"
-              ? "#fef3c7"
-              : "#fee2e2";
-        badge.style.color =
-          status === "GREEN"
-            ? "#166534"
-            : status === "AMBER"
-              ? "#92400e"
-              : "#991b1b";
-
-        result.style.display = "block";
-        result.style.background = badge.style.background;
-        result.style.color = badge.style.color;
-        result.innerHTML = "<strong>LLM 요약:</strong><br/>" + message;
-      }
-    </script>
   </body>
 </html>
