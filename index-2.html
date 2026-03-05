@@ -1,590 +1,654 @@
 <!doctype html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>환자 모니터링 및 챗봇 시스템</title>
+<head>
+  <base target="_blank">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2질환 상세페이지 | V.Doc PEDI-AIR</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --text-mid: #475569;
+      --text-dim: #94a3b8;
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+      --blue: #2563eb;
+      --blue-bg: #eff6ff;
+      --blue-border: #bfdbfe;
 
-    <style>
-      :root {
-        --bg: #ffffff;
-        --text: #0f172a;
-        --muted: #64748b;
-        --line: #e5e7eb;
-        --primary: #2563eb;
+      --green: #059669;
+      --green-bg: #ecfdf5;
+      --green-border: #a7f3d0;
 
-        --space-1: 8px;
-        --space-2: 16px;
-        --space-3: 24px;
-        --space-4: 40px;
-        --space-5: 72px;
-        --space-6: 120px;
+      --amber: #d97706;
+      --amber-bg: #fffbeb;
+      --amber-border: #fde68a;
+
+      --indigo: #4f46e5;
+      --indigo-bg: #eef2ff;
+      --indigo-border: #c7d2fe;
+
+      --teal: #0d9488;
+      --teal-bg: #f0fdfa;
+      --teal-border: #99f6e4;
+
+      --gray-bg: #f1f5f9;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-user-drag: none;
+    }
+
+    body {
+      user-select: none;
+      font-family: "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      min-width: 1440px;
+    }
+
+    .page {
+      width: 84%;
+      max-width: 1180px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: var(--surface);
+      box-shadow: 0 0 28px rgba(15, 23, 42, 0.04);
+      padding: 32px 40px;
+    }
+
+    .doc-header {
+      text-align: center;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+    }
+
+    .doc-header .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 600;
+      color: var(--blue);
+      background: var(--blue-bg);
+      border: 1px solid var(--blue-border);
+      border-radius: 999px;
+      padding: 3px 10px;
+      margin-bottom: 10px;
+    }
+
+    .doc-header h1 {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.35;
+      color: var(--text);
+      margin-bottom: 4px;
+      letter-spacing: -0.3px;
+    }
+
+    .doc-header h1 span {
+      color: var(--blue);
+    }
+
+    .doc-header .sub {
+      font-size: 13px;
+      color: var(--text-mid);
+      font-weight: 500;
+    }
+
+    .quick-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .quick-nav a {
+      text-decoration: none;
+      color: #1f3f76;
+      background: #f0f5ff;
+      border: 1px solid #c8d8f7;
+      border-radius: 999px;
+      font-size: 10px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      padding: 3px 8px;
+    }
+
+    .section {
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid var(--blue);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h2 .n {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: var(--blue);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--blue);
+      margin: 14px 0 6px;
+    }
+
+    .line {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.72;
+      margin-bottom: 4px;
+    }
+
+    .line strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .line-gap {
+      margin-bottom: 10px;
+    }
+
+    .co {
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin: 10px 0;
+      border-left: 4px solid;
+    }
+
+    .co-b { background: var(--blue-bg); border-color: var(--blue); }
+    .co-g { background: var(--green-bg); border-color: var(--green); }
+    .co-a { background: var(--amber-bg); border-color: var(--amber); }
+    .co-t { background: var(--teal-bg); border-color: var(--teal); }
+
+    .co .ct {
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+
+    .co-b .ct { color: var(--blue); }
+    .co-g .ct { color: var(--green); }
+    .co-a .ct { color: var(--amber); }
+    .co-t .ct { color: var(--teal); }
+
+    .co .line {
+      font-size: 12px;
+      margin-bottom: 3px;
+    }
+
+    .journey {
+      display: grid;
+      grid-template-columns: 1fr 38px 1fr;
+      gap: 0;
+      margin: 10px 0;
+    }
+
+    .jc {
+      border-radius: 8px;
+      padding: 12px 14px;
+      border: 1.5px solid;
+    }
+
+    .jc h4 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .jc .line {
+      font-size: 12px;
+      margin-bottom: 2px;
+    }
+
+    .j-pre {
+      background: var(--indigo-bg);
+      border-color: var(--indigo-border);
+    }
+
+    .j-pre h4 { color: var(--indigo); }
+
+    .j-post {
+      background: var(--green-bg);
+      border-color: var(--green-border);
+    }
+
+    .j-post h4 { color: var(--green); }
+
+    .j-mid {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      font-size: 22px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+    }
+
+    .ag {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .ac {
+      border: 1.5px solid var(--blue-border);
+      border-top: 3px solid var(--blue);
+      border-radius: 8px;
+      padding: 10px 11px;
+      background: #fff;
+    }
+
+    .ac .ab {
+      display: inline-block;
+      font-size: 9px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      color: var(--blue);
+      background: var(--blue-bg);
+      border-radius: 4px;
+      padding: 2px 6px;
+      margin-bottom: 4px;
+    }
+
+    .ac h4 {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .ac .line {
+      font-size: 11px;
+      margin-bottom: 2px;
+      line-height: 1.55;
+    }
+
+    .tbl {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      font-size: 12px;
+    }
+
+    .tbl th {
+      padding: 7px 10px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: "JetBrains Mono", monospace;
+      color: #fff;
+      background: var(--blue);
+    }
+
+    .tbl th.gy {
+      background: #94a3b8;
+    }
+
+    .tbl th:first-child { border-radius: 6px 0 0 0; }
+    .tbl th:last-child { border-radius: 0 6px 0 0; }
+
+    .tbl td {
+      padding: 7px 10px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-mid);
+      line-height: 1.55;
+      vertical-align: top;
+      background: #fff;
+    }
+
+    .tbl td:first-child {
+      font-weight: 700;
+      color: var(--text);
+      background: var(--gray-bg);
+      white-space: nowrap;
+    }
+
+    .tbl tr:nth-child(even) td {
+      background: #fafcff;
+    }
+
+    .tbl tr:nth-child(even) td:first-child {
+      background: #eef3f9;
+    }
+
+    .tbl .hi {
+      background: var(--blue-bg);
+      font-weight: 600;
+      color: #20416f;
+    }
+
+    .tbl .dm {
+      background: #f8fafc;
+    }
+
+    .tbl tr:last-child td:first-child { border-radius: 0 0 0 6px; }
+    .tbl tr:last-child td:last-child { border-radius: 0 0 6px 0; }
+
+    .sl {
+      list-style: none;
+      counter-reset: step;
+      margin: 10px 0;
+      padding: 0;
+    }
+
+    .sl li {
+      counter-increment: step;
+      position: relative;
+      padding: 10px 12px 10px 42px;
+      margin-bottom: 6px;
+      background: var(--gray-bg);
+      border-radius: 7px;
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.62;
+    }
+
+    .sl li::before {
+      content: counter(step);
+      position: absolute;
+      left: 11px;
+      top: 10px;
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      background: var(--blue);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .sl li strong {
+      color: var(--text);
+    }
+
+    .doc-footer {
+      text-align: center;
+      padding-top: 16px;
+      margin-top: 24px;
+      border-top: 2px solid var(--border);
+      font-size: 10px;
+      color: var(--text-dim);
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
       }
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+      @page {
+        size: landscape;
+        margin: 12mm 14mm;
       }
 
       body {
-        font-family: "Inter", sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        line-height: 1.75;
-        padding-top: 80px;
+        background: #fff !important;
       }
 
-      /* NAV */
-      .global-nav {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        height: 80px;
-        background: rgba(255, 255, 255, 0.96);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--line);
-        display: flex;
-        align-items: center;
-        z-index: 999;
-      }
-      .nav-inner {
-        max-width: 1200px;
-        margin: 0 auto;
-        width: 100%;
-        padding: 0 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .nav-logo {
-        font-weight: 700;
-        font-size: 15px;
-      }
-      .nav-menu {
-        display: flex;
-        gap: 32px;
-      }
-      .nav-menu a {
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--muted);
-      }
-      .nav-menu a.active,
-      .nav-menu a:hover {
-        color: var(--primary);
+      .page {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
       }
 
-      /* HERO */
-      .hero {
-        padding: var(--space-6) 0 var(--space-5);
-        text-align: center;
-        border-bottom: 1px solid var(--line);
-      }
-      .hero h1 {
-        font-size: 42px;
-        font-weight: 700;
-        margin-bottom: 16px;
-      }
-      .hero-sub {
-        font-size: 18px;
-        color: var(--primary);
-        margin-bottom: 20px;
-      }
-      .hero p {
-        max-width: 720px;
-        margin: 0 auto;
-        color: var(--muted);
+      .section,
+      .journey,
+      .co,
+      .ag,
+      .tbl,
+      .sl {
+        page-break-inside: avoid;
       }
 
-      /* CONTAINER */
-      .container {
-        max-width: 980px;
-        margin: 0 auto;
-        padding: 0 28px;
+      h2, h3 {
+        page-break-after: avoid;
       }
 
-      .section {
-        padding: var(--space-5) 0;
-        border-bottom: 1px solid var(--line);
+      .doc-footer {
+        page-break-before: avoid;
       }
-      .section:last-child {
-        border-bottom: none;
-      }
-      .section h2 {
-        font-size: 28px;
-        margin-bottom: var(--space-4);
-      }
-      .section h3 {
-        font-size: 16px;
-        margin-top: var(--space-4);
-        margin-bottom: var(--space-2);
-      }
-      .section p {
-        color: var(--muted);
-        margin-bottom: var(--space-3);
-      }
-
-      /* CARDS */
-      .flow-card {
-        padding: 18px;
-        border: 1px solid var(--line);
-        border-radius: 10px;
-        margin-bottom: 12px;
-        background: #f8fafc;
-      }
-      .frequency {
-        font-size: 12px;
-        color: var(--primary);
-        margin-left: 8px;
-      }
-
-      .param-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 20px;
-        margin-top: 20px;
-      }
-      .param-item {
-        padding: 20px;
-        border: 1px solid var(--line);
-        border-radius: 10px;
-        background: #f9fafb;
-      }
-      .param-code {
-        font-weight: 600;
-        margin-bottom: 6px;
-      }
-      .param-desc {
-        font-size: 13px;
-        color: var(--muted);
-      }
-
-      .text-list {
-        list-style: none;
-        margin-top: var(--space-2);
-      }
-      .text-list li {
-        margin-bottom: 10px;
-        color: var(--muted);
-      }
-
-      .spec-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-      }
-      .spec-table th {
-        text-align: left;
-        padding: 14px 0;
-        border-bottom: 1px solid var(--line);
-      }
-      .spec-table td {
-        padding: 16px 0;
-        border-bottom: 1px solid #f1f5f9;
-        color: var(--muted);
-      }
-
-      .process-step {
-        display: flex;
-        gap: 16px;
-        margin-bottom: 22px;
-      }
-      .step-number {
-        width: 32px;
-        height: 32px;
-        background: var(--primary);
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        font-weight: 600;
-      }
-
-      .model-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 24px;
-        margin-top: 24px;
-      }
-      .model-card {
-        padding: 22px;
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        background: white;
-      }
-      .model-card.recommended {
-        border-color: var(--primary);
-      }
-      .model-name {
-        font-weight: 600;
-        margin-bottom: 6px;
-      }
-      .model-type {
-        font-size: 12px;
-        color: #94a3b8;
-        margin-bottom: 10px;
-      }
-      .model-desc {
-        font-size: 14px;
-        color: var(--muted);
-        margin-bottom: 8px;
-      }
-      .model-badge {
-        font-size: 12px;
-        color: var(--primary);
-      }
-
-      .code-block {
-        background: #f8fafc;
-        padding: 22px;
-        border-radius: 10px;
-        font-size: 13px;
-        color: #334155;
-        margin-top: 20px;
-        white-space: pre-line;
-      }
-    </style>
-  </head>
-
-  <body>
-    <nav class="global-nav">
-      <div class="nav-inner">
-        <div class="nav-logo">Healthcare AI Platform</div>
-        <div class="nav-menu">
-          <a href="index.html" class="active">Overview</a>
-          <a href="pro.html">PRO</a>
-          <a href="model.html">Model</a>
-        </div>
-      </div>
-    </nav>
-
-    <div class="hero">
-      <h1>환자 모니터링 및 챗봇 시스템</h1>
-      <div class="hero-sub">Monitoring, Not Prediction</div>
-      <p>
-        벤틸레이션 신호 분석과 PRO 데이터를 기반으로 환자의 현재 상태를
-        정량화하고, 변화 패턴을 분석하는 통합 모니터링 플랫폼입니다.
-      </p>
-    </div>
-
-    <div class="container">
-      <!-- 시스템 개요 -->
-      <div class="section">
-        <h2>시스템 개요</h2>
-        <p>
-          본 시스템은 장기 기계호흡 환자의 안정적 관리를 위해 설계되었습니다. 홈
-          벤틸레이터로부터 수집한 호흡 신호와 보호자가 제공하는 임상 정보를 통합
-          분석하여 환자의 상태 변화를 감지하고 적절한 임상 개입을 지원합니다.
-        </p>
-
-        <h3>핵심 데이터 수집 주기 및 흐름</h3>
-        <div class="flow-card">
-          Ventilation Signal – 1시간 주기 <span class="frequency">Hourly</span>
-        </div>
-        <div class="flow-card">
-          PRO Data – 보호자 주간 입력 <span class="frequency">Weekly</span>
-        </div>
-        <div class="flow-card">
-          Event Trigger – 긴급 상황 판단용
-          <span class="frequency">Realtime</span>
-        </div>
-      </div>
-      <!-- ======================================== -->
-      <!-- 벤틸레이션 신호 분석 -->
-      <!-- ======================================== -->
-      <div class="section">
-        <h2>벤틸레이션 신호 분석</h2>
-
-        <h3>데이터 수집 프로토콜</h3>
-        <p>
-          호흡 신호는 1시간 단위로 정기적으로 수집되어 안정화된 상태의 환자
-          데이터를 확보합니다. 이러한 간격은 일시적 변동을 최소화하고 임상적으로
-          의미 있는 패턴 변화를 감지하는 데 최적화하도록 설계합니다.
-        </p>
-
-        <h3>모니터링 파라미터</h3>
-        <div class="param-grid">
-          <div class="param-item">
-            <div class="param-code">PIP</div>
-            <div class="param-desc">Peak Inspiratory<br />최대 흡기압</div>
-          </div>
-          <div class="param-item">
-            <div class="param-code">VTe</div>
-            <div class="param-desc">Exhaled Tidal<br />호기 일회 환기량</div>
-          </div>
-          <div class="param-item">
-            <div class="param-code">RR</div>
-            <div class="param-desc">Respiratory Rate<br />호흡수</div>
-          </div>
-          <div class="param-item">
-            <div class="param-code">MinVent</div>
-            <div class="param-desc">Minute Ventilation<br />분당 환기량</div>
-          </div>
-          <div class="param-item">
-            <div class="param-code">Leak</div>
-            <div class="param-desc">Ventilation Leak<br />회로 누수율</div>
-          </div>
-        </div>
-
-        <h3>데이터 처리 방법론</h3>
-        <p>
-          수집된 신호 데이터는 다단계 처리 프로세스를 거칩니다. 먼저 기기
-          노이즈나 순간적인 이상치를 제거하고, 환자의 기준값 대비 상대적
-          변화도를 계산합니다. 이후 지난 7일 데이터를 기반으로 추세 분석을
-          수행하여 점진적인 악화 신호를 감지합니다.
-        </p>
-      </div>
-
-      <!-- ======================================== -->
-      <!-- PRO 데이터 -->
-      <!-- ======================================== -->
-      <div class="section">
-        <h2>PRO 데이터 – 보호자 임상 관찰</h2>
-
-        <h3>주간 건강 평가</h3>
-        <p>
-          보호자는 주 1회 체계적인 형식으로 환자의 임상 상태를 보고합니다.
-          이러한 정성적 정보는 벤틸레이션 신호의 정량적 데이터를 보완하여
-          포괄적인 임상 평가를 가능하게 합니다.
-        </p>
-
-        <h3>평가 항목</h3>
-        <ul class="text-list">
-          <li>호흡기 상태: 산소포화도, 호흡곤란, 분비물 변화, 기침 빈도</li>
-          <li>감염 징후: 체온, 분비물 색상 및 성상</li>
-          <li>일상 활동: 수면 질, 식욕, 활동 수준</li>
-          <li>의료 개입: 약물 변경, 시술, 병원 방문</li>
-          <li>환자 개별 진단명에 따른 상태: 발작, 경련, 의식 수준 변화</li>
-        </ul>
-
-        <h3>긴급 상황 에스컬레이션 체계</h3>
-        <p>
-          일상적 주간 보고 외에도 보호자는 긴급 상황을 즉시 시스템에 보고 -
-          의료진 즉각 개입이 필요한 신호는 즉각 red signal 제시
-        </p>
-
-        <ul class="text-list">
-          <li>급성 호흡곤란 (청색증)</li>
-          <li>고열 (38°C 이상)</li>
-          <li>의식 변화 또는 반응성 저하</li>
-        </ul>
-      </div>
-
-      <!-- ======================================== -->
-      <!-- 위험도 분석 엔진 -->
-      <!-- ======================================== -->
-      <div class="section">
-        <h2>신호 모니터링/분석 & 위험도 분류 엔진(머신러닝)</h2>
-
-        <h3>시스템 아키텍처</h3>
-        <p>
-          위험도 분석 엔진은 벤틸레이션 신호와 PRO 데이터를 통합하여 환자의 현재
-          상태를 평가합니다. Intent 분류기가 사용자 입력을 먼저 분류한 후,
-          Orchestration 모듈이 관련 데이터를 수집하고 종합합니다.
-        </p>
-
-        <h3>머신러닝 모델 후보</h3>
-        <p>
-          환자 모니터링을 위한 위험도 예측에는 여러 머신러닝 모델을 검토하고, 각
-          모델의 특성과 의료 데이터 처리 성능을 고려하여 최종 확정함.
-        </p>
-
-        <div class="model-grid">
-          <div class="model-card recommended">
-            <div class="model-name">LightGBM</div>
-            <div class="model-type">Gradient Boosting</div>
-            <div class="model-desc">
-              1시간 주기 신호 처리에 최적화. XGBoost 대비 빠른 학습 속도와
-              우수한 정확도.
-            </div>
-            <div class="model-badge">후보</div>
-          </div>
-
-          <div class="model-card">
-            <div class="model-name">XGBoost</div>
-            <div class="model-type">Gradient Boosting</div>
-            <div class="model-desc">
-              의료 데이터 분석에 검증된 성능. 높은 안정성과 해석 가능성.
-            </div>
-            <div class="model-badge">대안</div>
-          </div>
-
-          <div class="model-card">
-            <div class="model-name">LSTM / RNN</div>
-            <div class="model-type">Deep Learning</div>
-            <div class="model-desc">
-              시계열 패턴 학습에 특화. 호흡 신호의 시간적 의존성 포착.
-            </div>
-            <div class="model-badge">보조</div>
-          </div>
-
-          <div class="model-card">
-            <div class="model-name">CatBoost</div>
-            <div class="model-type">Gradient Boosting</div>
-            <div class="model-desc">
-              범주형 특징 자동 최적화. PRO 데이터 카테고리 처리에 우수.
-            </div>
-            <div class="model-badge">심화</div>
-          </div>
-
-          <div class="model-card">
-            <div class="model-name">Random Forest</div>
-            <div class="model-type">Ensemble</div>
-            <div class="model-desc">
-              모델 해석 가능성 높음. 과적합 방지 능력 우수.장기 추세 반영 약함
-            </div>
-            <div class="model-badge">해석</div>
-          </div>
-
-          <div class="model-card">
-            <div class="model-name">Cox Regression</div>
-            <div class="model-type">Statistical</div>
-            <div class="model-desc">
-              의료 통계의 표준 방법. 생존 분석 특화.생존 분석용, 실시간 리스크
-              예측엔 부적합
-            </div>
-            <div class="model-badge">통계</div>
-          </div>
-        </div>
-
-        <h3>처리 파이프라인</h3>
-
-        <div class="process-step">
-          <div class="step-number">1</div>
-          <div>
-            <div class="step-title">사용자 입력 분류</div>
-            <div class="step-desc">
-              상태 문의, 이벤트 신고, 일반 질문으로 분류
-            </div>
-          </div>
-        </div>
-
-        <div class="process-step">
-          <div class="step-number">2</div>
-          <div>
-            <div class="step-title">데이터 통합</div>
-            <div class="step-desc">
-              최신 Ventilation + PRO 데이터 수집 및 통합
-            </div>
-          </div>
-        </div>
-
-        <div class="process-step">
-          <div class="step-number">3</div>
-          <div>
-            <div class="step-title">위험도 예측</div>
-            <div class="step-desc">머신러닝 모델 기반 위험 점수 산출</div>
-          </div>
-        </div>
-
-        <div class="process-step">
-          <div class="step-number">4</div>
-          <div>
-            <div class="step-title">트리아지 분류</div>
-            <div class="step-desc">Green / Yellow / Red 변환</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ======================================== -->
-      <!-- TRIAGE SYSTEM -->
-      <!-- ======================================== -->
-      <div class="section">
-        <h2>트리아지 시스템:Traffic light triage system</h2>
-
-        <table class="spec-table">
-          <thead>
-            <tr>
-              <th>레벨</th>
-              <th>임상적 의미</th>
-              <th>특성</th>
-              <th>대응</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>🟢 Green</td>
-              <td>정상 범위</td>
-              <td>신호 안정적, 편차 최소</td>
-              <td>일상적 모니터링</td>
-            </tr>
-            <tr>
-              <td>🟠 Yellow</td>
-              <td>경계 상태</td>
-              <td>점진적 변화, 추세 악화</td>
-              <td>강화된 관찰</td>
-            </tr>
-            <tr>
-              <td>🔴 Red</td>
-              <td>위험 상태</td>
-              <td>급격한 변화, 임상적 우려</td>
-              <td>의료진 즉시 개입</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- ======================================== -->
-      <!-- LLM INTERFACE -->
-      <!-- ======================================== -->
-      <div class="section">
-        <h2>LLM 엔진 적용 인터페이스</h2>
-
-        <h3>챗봇 기반 안내</h3>
-        <p>
-          LLM 기반 챗봇은 위험도 분석 엔진의 결과를 환자 친화적인 자연어로
-          변환합니다. 의료 판단을 제공하지 않으면서도 상태 변화를 이해하기 쉬운
-          방식으로 설명하고, 필요한 임상 조치를 안내합니다.
-        </p>
-
-        <div class="insight-box">
-          ✓ 안전성 기능: 의료 판단 표현 자동 차단, 응급 상황 조건부 알림, 의료진
-          연계 권고 문구 필수 포함
-        </div>
-
-        <h3>응답 예시</h3>
-        <div class="code-block">
-          입력: "요즘 호흡 상태가 어떤가요? 분석: - 의도 분류: 상태 문의 -
-          벤틸레이션: RR ↑, MinVent ↓ - PRO: 호흡곤란 증상 보고 - 위험도:
-          Yellow(경계) LLM 응답: "최근 호흡 패턴에 변화가 감지되었습니다.
-          의료진에게 알리고 현재 상태를 계속 관찰하겠습니다. 긴급 상황 발생 시
-          바로 알려주세요."
-        </div>
-      </div>
-
-      <!-- ======================================== -->
-      <!-- OPERATIONAL WORKFLOW -->
-      <!-- ======================================== -->
-      <div class="section">
-        <h2>일일 운영 워크플로우</h2>
-
-        <h3>시간별 모니터링 주기</h3>
-        <p>
-          매시간 벤틸레이션 신호가 자동으로 수집되어 위험도 평가가 이루어집니다.
-        </p>
-
-        <h3>주간 평가 일정</h3>
-        <p>
-          매주 정해진 시간에 보호자는 건강 상태 평가 양식을 작성합니다. 누적된
-          벤틸레이션 데이터와 통합 분석되어 더욱 정교한 임상 평가가 가능합니다.
-        </p>
-
-        <h3>긴급 상황 대응</h3>
-        <p>
-          긴급 상황 발생 시 보호자의 즉시 보고는 현재 벤틸레이션 신호 및 PRO
-          데이터와 함께 종합 분석됩니다. Red 등급 시 응급실 권고 프로토콜이 자동
-          실행됩니다.
-        </p>
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="doc-header">
+      <div class="badge">닥터앤서 3.0 · 2질환 상세</div>
+      <h1><span>V.Doc PEDI-AIR</span> 서비스 소개 상세페이지</h1>
+      <div class="sub">소아 만성호흡부전 환자 재택 모니터링 · 보호자 중심 대응 · 의료진 연계</div>
+      <div class="quick-nav">
+        <a href="#sec1" target="_self">배경</a>
+        <a href="#sec2" target="_self">핵심기능</a>
+        <a href="#sec3" target="_self">운영흐름</a>
+        <a href="#sec4" target="_self">데이터셋</a>
+        <a href="#sec5" target="_self">로드맵</a>
+        <a href="#sec6" target="_self">실증/KPI</a>
       </div>
     </div>
-  </body>
+
+    <div class="section" id="sec1">
+      <h2><span class="n">1</span>배경 및 과제</h2>
+      <div class="line"><strong>타깃:</strong> 소아 만성호흡부전 환자 재택 모니터링 서비스(2질환)</div>
+      <div class="line"><strong>핵심 문제:</strong> 재택 환경에서 객관적 모니터링 부족, 보호자 의존, 응급 징후 조기대응 지연</div>
+      <div class="line line-gap"><strong>해결 방향:</strong> EMR + 인공호흡기 + SpO2 + 심박 + PRO 통합 해석으로 실시간 triage 및 대응 가이드 제공</div>
+
+      <div class="co co-b">
+        <div class="ct">AT A GLANCE</div>
+        <div class="line">후향 데이터셋: <strong>60명</strong></div>
+        <div class="line">전향 실증 수집: <strong>40명(6개월) + PRO 일 1건</strong></div>
+        <div class="line">실증 대상자 계획: <strong>3차 24명 · 4차 16명</strong></div>
+        <div class="line">인허가 계획: <strong>V.Doc PEDI-AIR, 3차년도(2027)</strong></div>
+      </div>
+    </div>
+
+    <div class="section" id="sec2">
+      <h2><span class="n">2</span>핵심 기능</h2>
+      <div class="ag">
+        <div class="ac">
+          <div class="ab">FEATURE-01</div>
+          <h4>이상신호 감지/분류</h4>
+          <div class="line">저산소증 · 환기저하 · 비동기화 탐지</div>
+          <div class="line">Rule + ML/DL 앙상블</div>
+          <div class="line">알람 등급화로 불필요 알람 최소화</div>
+        </div>
+        <div class="ac">
+          <div class="ab">FEATURE-02</div>
+          <h4>응급 대응 가이드</h4>
+          <div class="line">위험도별 내원/점검/보호자 조치 안내</div>
+          <div class="line">상황별 triage 챗봇 질의응답</div>
+          <div class="line">의료진 에스컬레이션 트리거 연계</div>
+        </div>
+        <div class="ac">
+          <div class="ab">FEATURE-03</div>
+          <h4>통합 분석 리포트</h4>
+          <div class="line">T-Bridge 기반 EMR+지식DB+PRO 통합</div>
+          <div class="line">초개인화 관리계획 동적 조정</div>
+          <div class="line">FHIR 표준 요약 리포트 제공</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="sec3">
+      <h2><span class="n">3</span>운영 흐름</h2>
+      <div class="journey">
+        <div class="jc j-pre">
+          <h4>🏥 데이터 수집/정제</h4>
+          <div class="line">병원 EMR + 재택기기 + 보호자 PRO 입력</div>
+          <div class="line">DMZ(T-Bridge) 비식별화/표준화(FHIR)</div>
+          <div class="line">의료 지식DB 연계</div>
+        </div>
+        <div class="j-mid">→</div>
+        <div class="jc j-post">
+          <h4>🏠 AI 판단/개입</h4>
+          <div class="line">PEDI-AIR 실시간 위험 분류</div>
+          <div class="line">상황별 대응 가이드 자동 제시</div>
+          <div class="line">의료진 대시보드/에스컬레이션 연계</div>
+        </div>
+      </div>
+
+      <div class="co co-t">
+        <div class="ct">운영 원칙</div>
+        <div class="line">보호자 중심 입력/상담을 핵심 인터페이스로 설계</div>
+        <div class="line">의료진은 표준화 리포트 기반으로 객관적 판단 수행</div>
+        <div class="line">교정 피드백은 모델 고도화 루프로 환류</div>
+      </div>
+    </div>
+
+    <div class="section" id="sec4">
+      <h2><span class="n">4</span>데이터셋 구축 계획 (사업계획서 기준)</h2>
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>구분</th>
+            <th>항목</th>
+            <th>목표량/기준</th>
+            <th>비고</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>후향</td>
+            <td>EMR 학습 환자 수</td>
+            <td class="hi">60명</td>
+            <td>기초 학습 데이터셋</td>
+          </tr>
+          <tr>
+            <td>후향</td>
+            <td>SpO2/심박/기기관리</td>
+            <td class="hi">각 1,440건 (월1회/60명/24개월)</td>
+            <td>재택 모니터링 데이터</td>
+          </tr>
+          <tr>
+            <td>후향</td>
+            <td>상담 데이터</td>
+            <td>5,760건 (환자당 월4건)</td>
+            <td>보호자 문의/증상/기기관리</td>
+          </tr>
+          <tr>
+            <td>후향</td>
+            <td>의료지식 DB / triage 시나리오</td>
+            <td>100건 / 100건</td>
+            <td>가이드라인·문헌 연계</td>
+          </tr>
+          <tr>
+            <td>전향</td>
+            <td>실증 환자 수</td>
+            <td class="hi">40명</td>
+            <td>6개월 수집</td>
+          </tr>
+          <tr>
+            <td>전향</td>
+            <td>SpO2/심박/기기관리</td>
+            <td class="hi">각 240건 (월1회/40명/6개월)</td>
+            <td>실증 환경 데이터</td>
+          </tr>
+          <tr>
+            <td>전향</td>
+            <td>상담 데이터 + PRO</td>
+            <td>960건 + 환자당 일1건</td>
+            <td>의료진 기록 반기 1건/환자</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section" id="sec5">
+      <h2><span class="n">5</span>연차 로드맵</h2>
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>연차</th>
+            <th class="gy">핵심 목표</th>
+            <th>주요 내용</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2025 (1차)</td>
+            <td class="dm">기반 수립</td>
+            <td>IRB/DRB 승인, 필수 데이터 항목 정의, 비식별/표준화 설계, 후향 데이터 60명 확보</td>
+          </tr>
+          <tr>
+            <td>2026 (2차)</td>
+            <td class="dm">초기 모델 구현</td>
+            <td>후향 데이터셋 구축 완료, 전향 수집 개시(40명), triage AI 초기 모델 및 내부 검증</td>
+          </tr>
+          <tr>
+            <td>2027 (3차)</td>
+            <td class="dm">실시간 파일럿</td>
+            <td>전향 데이터 확장, 실시간 챗봇 수집 체계 강화, <strong>V.Doc PEDI-AIR 인허가 목표(2027)</strong></td>
+          </tr>
+          <tr>
+            <td>2028 (4차)</td>
+            <td class="dm">다기관 확장</td>
+            <td>다기관 전향 수집 체계 확립, 위험도 피드백 루프 운영, 장기 운영/보안 모니터링</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section" id="sec6">
+      <h2><span class="n">6</span>실증 범위 및 운영 KPI</h2>
+      <div class="co co-g">
+        <div class="ct">실증 범위</div>
+        <div class="line">교차검증: 서울아산병원 · 세브란스병원 · 삼성서울병원</div>
+        <div class="line">실증기관: 서울아산 · 세브란스 · 삼성서울 · 서울대 · 전남대</div>
+        <div class="line">대상자수: 3차년도 24명, 4차년도 16명</div>
+      </div>
+
+      <ol class="sl">
+        <li><strong>응급 징후 조기 탐지율 개선</strong><br>저산소증/환기저하/비동기화 조기감지로 초기 대응 시간 단축</li>
+        <li><strong>보호자 부담 경감</strong><br>상황별 행동 가이드와 챗봇 상담으로 의사결정 부담 완화</li>
+        <li><strong>진료 의사결정 품질 향상</strong><br>FHIR 표준 리포트 기반 객관 정보 제공</li>
+        <li><strong>운영 신뢰성 강화</strong><br>보안/감사/교정 로그 기반의 지속적 모델 개선</li>
+      </ol>
+    </div>
+
+    <div class="doc-footer">Service-02 PEDI-AIR · Source: 사업계획서(2질환) 기준 정리</div>
+  </div>
+
+  <script>
+    document.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+    document.addEventListener("dragstart", function (e) { e.preventDefault(); });
+    document.addEventListener("selectstart", function (e) { e.preventDefault(); });
+  </script>
+</body>
 </html>
